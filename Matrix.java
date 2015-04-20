@@ -1,5 +1,12 @@
 public class Matrix
 {
+    /**
+     * Constructor for the objects of class Matrix.
+     *  
+     * @param   values   An array that takes in double values that will be used to create the matrix
+     *          rows     The number of rows for the intended matrix
+     *          cols     The number of columns for the intended matrix
+     */
     public Matrix(double[] values, int rows, int cols)
     {
         double[][] matrix = new double[rows][cols];
@@ -20,7 +27,16 @@ public class Matrix
             throw new ArithmeticException("The number of values does not match the size of the matrix.");
         }
     }
-    
+
+    /**
+     * The method that creates a smaller matrix from a matrix by excluding a specific row and column.
+     *
+     * @pre     The matrix that is passed in is a square from the getDet() method.
+     * @param   matrix  A 2D array with double values to represent a matrix
+     *          skipRow The index value for the row that has to be skipped
+     *          skipCol The index value for the column that has to be skipped
+     * @return  Returns a 2D array representing the matrix subset.
+     */
     public double[][] createMatrixSubset(double[][] matrix, int skipRow, int skipCol)
     {
         double[][] newMatrix = new double[matrix.length - 1][matrix[0].length - 1];
@@ -44,7 +60,13 @@ public class Matrix
             }
         }
     }
-    
+
+    /**
+     * The method that calculates the determinant of a matrix.
+     *
+     * @param   matrix  A 2D array with double values to represent a matrix
+     * @return  description of the return value
+     */
     public double getDet(double[][] matrix)
     {
         double det = 0;
@@ -92,19 +114,19 @@ public class Matrix
             throw new ArithmeticException("Matrix is not a square.");
         }
     }
-    
+
     public double[][] getInv(double[][] matrix)
     {
         if(matrix.length == matrix[0].length)
         {
-            
+
         }
         else
         {
             throw new ArithmeticException("Matrix is not a square.");
         }
     }
-    
+
     public double[][] transpose(double[][] matrix)
     {
         int cols = matrix[0].length;
@@ -119,7 +141,7 @@ public class Matrix
         }
         return newMatrix;
     }
-    
+
     public double trace(double[][] matrix)
     {
         double value = 0;
@@ -136,7 +158,7 @@ public class Matrix
             throw new ArithmeticException("Matrix is not a square.");
         }
     }
-    
+
     public double[][] mult(double[][] mat1, double[][] mat2)
     {
         double[][] matrix = new double[mat1.length][mat2[0].length];
@@ -160,3 +182,4 @@ public class Matrix
         }
     }
 }
+
