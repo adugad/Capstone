@@ -1,10 +1,24 @@
- import java.util.Scanner;
-
 public class Matrix
 {
-    public Matrix()
+    public Matrix(double[] values, int rows, int cols)
     {
-        
+        double[][] matrix = new double[rows][cols];
+        int counter = 0;
+        if(values.length == rows * cols)
+        {
+            for(int i = 0; i < rows; i++)
+            {
+                for(int j = 0; j < cols; j++)
+                {
+                    matrix[i][j] = values[counter];
+                    counter++;
+                }
+            }
+        }
+        else
+        {
+            throw new ArithmeticException("The number of values does not match the size of the matrix.");
+        }
     }
     
     public double[][] createMatrixSubset(double[][] matrix, int skipRow, int skipCol)
@@ -34,15 +48,43 @@ public class Matrix
     public double getDet(double[][] matrix)
     {
         double det = 0;
+        double total = 0;
         if (matrix.length == matrix[0].length)
         {
             if(matrix.length == 2)
             {
-                
+                int a = 0;
+                int b = 0;
+                int c = 0;
+                int d = 0;
+                for(int i = 0; i < 2; i++)
+                {
+                    for(int j = 0; j < 2; j++)
+                    {
+                        if( i == 0 && j == 0)
+                        {
+                            a = matrix[i][j];
+                        }
+                        else if(i == 1 && j == 1)
+                        {
+                            d = matrix[i][j];
+                        }
+                        else if(i == 0 && j == 1)
+                        {
+                            b = matrix[i][j];
+                        }
+                        else
+                        {
+                            c = matrix[i][j];
+                        }
+                    }
+                }
+                det = a*d - b*c;
+                total += det;
             }
             else
             {
-                
+                //recursive
             }
         }
         else
@@ -53,7 +95,14 @@ public class Matrix
     
     public double[][] getInv(double[][] matrix)
     {
-        
+        if(matrix.length == matrix[0].length)
+        {
+            
+        }
+        else
+        {
+            throw new ArithmeticException("Matrix is not a square.");
+        }
     }
     
     public double[][] transpose(double[][] matrix)
