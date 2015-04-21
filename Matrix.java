@@ -84,7 +84,7 @@ public class Matrix
      */
     public double getDet(double[][] matrix)
     {
-        double det;
+        double det = 0;
         if (matrix.length == matrix[0].length)
         {
             if(matrix.length == 2)
@@ -140,6 +140,7 @@ public class Matrix
         {
             throw new ArithmeticException("Matrix is not a square.");
         }
+        return det;
     }
 
     /**
@@ -167,16 +168,16 @@ public class Matrix
                     matrix[i][j] = value / det;
                 }
             }
-            return matrix;
         }
         else if(det == 0)
         {
-            throw new ArithmaticException("Matrix is not invertible.");
+            throw new ArithmeticException("Matrix is not invertible.");
         }
         else if(matrix.length != matrix[0].length)
         {
             throw new ArithmeticException("Matrix is not a square.");
         }
+        return matrix;
     }
 
     /**
