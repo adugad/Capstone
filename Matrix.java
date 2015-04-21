@@ -1,3 +1,9 @@
+/**
+ * A class that creates objects that represent matrices.
+ *  
+ * @author Annika Dugad
+ * @version 4/24/2015
+ */
 public class Matrix
 {
     /**
@@ -39,46 +45,54 @@ public class Matrix
      */
     public double[][] createMatrixSubset(double[][] matrix, int skipRow, int skipCol)
     {
-        double[][] newMatrix = new double[matrix.length - 1][matrix[0].length - 1];
-        for(int i = 0; i < newMatrix.length; i++)
+        int newRows = matrix.length - 1;
+        int newCols = matrix[0].length - 1;
+        double[][] newMatrix = new double[newRows][newCols];
+        int ni = 0;
+        int nj = 0;
+        for(int i = 0; i < matrix.length; i++)
         {
-            for(int j = 0; j < newMatrix[0].length; j++)
+            if(i == skipRow)
             {
-                for(int k = 0; k < matrix.length; k++)
+                continue;
+            }
+            else
+            {
+                ni++;
+                for(int j = 0; j < matrix[0].length; j++)
                 {
-                    for(int l = 0; l < matrix[0].length; l++)
+                    if( j == skipCol)
                     {
-                        if(k != skipRow || l != skipCol || matrix[k][l] != null)
-                        {
-                            newMatrix[i][j] = matrix[k][l];
-                            matrix[k][l] = null;
-                            l = matrix[0].length;
-                            k = matrix.length;
-                        }
+                        continue;
+                    }
+                    else
+                    {
+                        nj++;
+                        newMatrix[ni][nj] = matrix[i][j];
                     }
                 }
             }
         }
+        return newMatrix;
     }
 
     /**
      * The method that calculates the determinant of a matrix.
      *
      * @param   matrix  A 2D array with double values to represent a matrix
-     * @return  description of the return value
+     * @return  A double value representing the determinant of the matrix
      */
     public double getDet(double[][] matrix)
     {
-        double det = 0;
-        double total = 0;
+        double det;
         if (matrix.length == matrix[0].length)
         {
             if(matrix.length == 2)
             {
-                int a = 0;
-                int b = 0;
-                int c = 0;
-                int d = 0;
+                double a = 0;
+                double b = 0;
+                double c = 0;
+                double d = 0;
                 for(int i = 0; i < 2; i++)
                 {
                     for(int j = 0; j < 2; j++)
@@ -102,11 +116,24 @@ public class Matrix
                     }
                 }
                 det = a*d - b*c;
-                total += det;
+                return det;
             }
             else
             {
-                //recursive
+                for(int i = 0; i < 1; i++)
+                {
+                    for(int j = 0; j < matrix[0].length; j++)
+                    {
+                        double k = 1;
+                        double[][] newMatrix = createMatrixSubset(matrix,i,j);
+                        if((i+j)%2 != 0)
+                        {
+                            k = -1;
+                        }
+                        det = k * matrix[i][j] * getDet(newMatrix);
+                        return det;
+                    }
+                }
             }
         }
         else
@@ -115,18 +142,49 @@ public class Matrix
         }
     }
 
+    /**
+     * The method that returns the inverse of the matrix by utilizing the determinant and the adjoint.
+     *
+     * @param   matrix  A 2D array with double values to represent a matrix
+     * @return  Returns a 2D array representing the inverse matrix.
+     */
     public double[][] getInv(double[][] matrix)
     {
-        if(matrix.length == matrix[0].length)
+        double det = getDet(matrix);
+        if(matrix.length == matrix[0].length || det != 0)
         {
-
+            for(int i = 0; i < matrix.length; i++)
+            {
+                for(int j = 0; j < matrix[0].length; j++)
+                {
+                    double k = 1;
+                    double[][] newMatrix = createMatrixSubset(matrix,i,j);
+                    if((i+j)%2 != 0)
+                    {
+                        k = -1;
+                    }
+                    double value = k * getDet(newMatrix);
+                    matrix[i][j] = value / det;
+                }
+            }
+            return matrix;
         }
-        else
+        else if(det == 0)
+        {
+            throw new ArithmaticException("Matrix is not invertible.");
+        }
+        else if(matrix.length != matrix[0].length)
         {
             throw new ArithmeticException("Matrix is not a square.");
         }
     }
 
+    /**
+     * The method that transposes a matrix.
+     *
+     * @param   matrix  A 2D array with double values to represent a matrix
+     * @return  Returns a 2D array representing the transposed matrix
+     */
     public double[][] transpose(double[][] matrix)
     {
         int cols = matrix[0].length;
@@ -142,6 +200,12 @@ public class Matrix
         return newMatrix;
     }
 
+    /**
+     * The method that calculates the trace of the matrix.
+     *
+     * @param   matrix  A 2D array with double values to represent a matrix
+     * @return  Returns a double value which represents the trace of the matrix
+     */
     public double trace(double[][] matrix)
     {
         double value = 0;
@@ -159,6 +223,13 @@ public class Matrix
         }
     }
 
+    /**
+     * The method that multiplies two matrices with each other.
+     *
+     * @param   mat1    A 2D array with double values to represent a matrix
+     *          mat2    A 2D array with double values to represent a matrix
+     * @return  Returns a 2D array representing the multiplied matrix.
+     */
     public double[][] mult(double[][] mat1, double[][] mat2)
     {
         double[][] matrix = new double[mat1.length][mat2[0].length];
