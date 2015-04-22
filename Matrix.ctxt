@@ -20,4 +20,6 @@ comment5.text=\r\n\ The\ method\ that\ calculates\ the\ trace\ of\ the\ matrix.\
 comment6.params=mat1\ mat2
 comment6.target=double[][]\ mult(double[][],\ double[][])
 comment6.text=\r\n\ The\ method\ that\ multiplies\ two\ matrices\ with\ each\ other.\r\n\r\n\ @param\ \ \ mat1\ \ \ \ A\ 2D\ array\ with\ double\ values\ to\ represent\ a\ matrix\r\n\ \ \ \ \ \ \ \ \ \ mat2\ \ \ \ A\ 2D\ array\ with\ double\ values\ to\ represent\ a\ matrix\r\n\ @return\ \ Returns\ a\ 2D\ array\ representing\ the\ multiplied\ matrix.\r\n
-numComments=7
+comment7.params=matrix
+comment7.target=java.lang.String\ toString(double[][])
+numComments=8

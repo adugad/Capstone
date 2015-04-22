@@ -42,7 +42,9 @@ public class MatrixTester
         {
             for(int j = 0; j < cols; j++)
             {
-                System.out.println("Enter the value in row #" + i + " and column #" + j + ": ");
+                int wRow = i+1;
+                int wCol = j+1;
+                System.out.println("Enter the value in row #" + wRow + " and column #" + wCol + ": ");
                 if(in.hasNextDouble())
                 {
                     matVals[counter] = in.nextDouble();

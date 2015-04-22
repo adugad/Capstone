@@ -89,33 +89,7 @@ public class Matrix
         {
             if(matrix.length == 2)
             {
-                double a = 0;
-                double b = 0;
-                double c = 0;
-                double d = 0;
-                for(int i = 0; i < 2; i++)
-                {
-                    for(int j = 0; j < 2; j++)
-                    {
-                        if( i == 0 && j == 0)
-                        {
-                            a = matrix[i][j];
-                        }
-                        else if(i == 1 && j == 1)
-                        {
-                            d = matrix[i][j];
-                        }
-                        else if(i == 0 && j == 1)
-                        {
-                            b = matrix[i][j];
-                        }
-                        else
-                        {
-                            c = matrix[i][j];
-                        }
-                    }
-                }
-                det = a*d - b*c;
+                det = matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0];
                 return det;
             }
             else
@@ -130,8 +104,7 @@ public class Matrix
                         {
                             k = -1;
                         }
-                        det = k * matrix[i][j] * getDet(newMatrix);
-                        return det;
+                        det += k * matrix[i][j] * getDet(newMatrix);
                     }
                 }
             }
@@ -252,6 +225,21 @@ public class Matrix
         {
             throw new ArithmeticException("Matrices cannot be multiplied together.");
         }
+    }
+    
+    public String toString(double[][] matrix)
+    {
+        String str = "[ ";
+        for(int i = 0; i < matrix.length; i++)
+        {
+            str += "\n";
+            for(int j = 0; j < matrix[0].length; j++)
+            {
+                str += matrix[i][j] + " ";
+            }
+        }
+        str += " ]";
+        return str;
     }
 }
 
