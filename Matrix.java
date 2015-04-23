@@ -6,6 +6,8 @@
  */
 public class Matrix
 {
+    double[][] matrix;
+    
     /**
      * Constructor for the objects of class Matrix.
      *  
@@ -13,25 +15,10 @@ public class Matrix
      *          rows     The number of rows for the intended matrix
      *          cols     The number of columns for the intended matrix
      */
-    public Matrix(double[] values, int rows, int cols)
+    public Matrix(double[][] values)
     {
-        double[][] matrix = new double[rows][cols];
+        matrix = values;
         int counter = 0;
-        if(values.length == rows * cols)
-        {
-            for(int i = 0; i < rows; i++)
-            {
-                for(int j = 0; j < cols; j++)
-                {
-                    matrix[i][j] = values[counter];
-                    counter++;
-                }
-            }
-        }
-        else
-        {
-            throw new ArithmeticException("The number of values does not match the size of the matrix.");
-        }
     }
 
     /**
@@ -43,14 +30,14 @@ public class Matrix
      *          skipCol The index value for the column that has to be skipped
      * @return  Returns a 2D array representing the matrix subset.
      */
-    public double[][] createMatrixSubset(double[][] matrix, int skipRow, int skipCol)
+    public double[][] createMatrixSubset(double[][] array, int skipRow, int skipCol)
     {
-        int newRows = matrix.length - 1;
-        int newCols = matrix[0].length - 1;
+        int newRows = array.length - 1;
+        int newCols = array[0].length - 1;
         double[][] newMatrix = new double[newRows][newCols];
         int ni = 0;
         int nj = 0;
-        for(int i = 0; i < matrix.length; i++)
+        for(int i = 0; i < array.length; i++)
         {
             if(i == skipRow)
             {
@@ -58,8 +45,7 @@ public class Matrix
             }
             else
             {
-                ni++;
-                for(int j = 0; j < matrix[0].length; j++)
+                for(int j = 0; j < array[0].length; j++)
                 {
                     if( j == skipCol)
                     {
@@ -67,10 +53,11 @@ public class Matrix
                     }
                     else
                     {
-                        nj++;
                         newMatrix[ni][nj] = matrix[i][j];
+                        nj++;
                     }
                 }
+                ni++;
             }
         }
         return newMatrix;
@@ -82,29 +69,30 @@ public class Matrix
      * @param   matrix  A 2D array with double values to represent a matrix
      * @return  A double value representing the determinant of the matrix
      */
-    public double getDet(double[][] matrix)
+    public double getDet()
     {
         double det = 0;
-        if (matrix.length == matrix[0].length)
+        double[][] array = this.matrix;
+        if (array.length == array[0].length)
         {
-            if(matrix.length == 2)
+            if(array.length == 2)
             {
-                det = matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0];
+                det = array[0][0]*array[1][1] - array[0][1]*array[1][0];
                 return det;
             }
             else
             {
                 for(int i = 0; i < 1; i++)
                 {
-                    for(int j = 0; j < matrix[0].length; j++)
+                    for(int j = 0; j < array[0].length; j++)
                     {
                         double k = 1;
-                        double[][] newMatrix = createMatrixSubset(matrix,i,j);
+                        double[][] newMatrix = createMatrixSubset(array,i,j);
                         if((i+j)%2 != 0)
                         {
                             k = -1;
                         }
-                        det += k * matrix[i][j] * getDet(newMatrix);
+                        det += k * array[i][j] * getDet();
                     }
                 }
             }
@@ -122,23 +110,24 @@ public class Matrix
      * @param   matrix  A 2D array with double values to represent a matrix
      * @return  Returns a 2D array representing the inverse matrix.
      */
-    public double[][] getInv(double[][] matrix)
+    public double[][] getInv()
     {
-        double det = getDet(matrix);
-        if(matrix.length == matrix[0].length || det != 0)
+        double det = getDet();
+        double[][] array = this.matrix;
+        if(array.length == array[0].length || det != 0)
         {
-            for(int i = 0; i < matrix.length; i++)
+            for(int i = 0; i < array.length; i++)
             {
-                for(int j = 0; j < matrix[0].length; j++)
+                for(int j = 0; j < array[0].length; j++)
                 {
                     double k = 1;
-                    double[][] newMatrix = createMatrixSubset(matrix,i,j);
+                    double[][] newMatrix = createMatrixSubset(array,i,j);
                     if((i+j)%2 != 0)
                     {
                         k = -1;
                     }
-                    double value = k * getDet(newMatrix);
-                    matrix[i][j] = value / det;
+                    double value = k * getDet();
+                    array[i][j] = value / det;
                 }
             }
         }
@@ -150,7 +139,7 @@ public class Matrix
         {
             throw new ArithmeticException("Matrix is not a square.");
         }
-        return matrix;
+        return array;
     }
 
     /**
@@ -159,7 +148,7 @@ public class Matrix
      * @param   matrix  A 2D array with double values to represent a matrix
      * @return  Returns a 2D array representing the transposed matrix
      */
-    public double[][] transpose(double[][] matrix)
+    public double[][] transpose()
     {
         int cols = matrix[0].length;
         int rows = matrix.length;
@@ -180,7 +169,7 @@ public class Matrix
      * @param   matrix  A 2D array with double values to represent a matrix
      * @return  Returns a double value which represents the trace of the matrix
      */
-    public double trace(double[][] matrix)
+    public double trace()
     {
         double value = 0;
         if (matrix.length == matrix[0].length)
@@ -227,12 +216,15 @@ public class Matrix
         }
     }
     
-    public String toString(double[][] matrix)
+    public String toString()
     {
         String str = "[ ";
         for(int i = 0; i < matrix.length; i++)
         {
-            str += "\n";
+            if(i != 0)
+            {
+                str += "\n";
+            }
             for(int j = 0; j < matrix[0].length; j++)
             {
                 str += matrix[i][j] + " ";
